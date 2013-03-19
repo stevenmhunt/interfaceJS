@@ -17,49 +17,49 @@ var interfaceJS = interfaceJS || { version: "1.0" };
     // [Private] Represents the interface.
     var interfaceBase = function(reqObjects) {
     
-	// [Private] Parent interfaces.
+        // [Private] Parent interfaces.
         var parents = [];
 
-	// [Public] Tells the interface to implement other interfaces.
+        // [Public] Tells the interface to implement other interfaces.
         this.implement = function(interfaces) {
             parents = parents.concat(interfaces);
-	        return this;
+            return this;
         }
-    
-	// [Public] Used to check if a JavaScript object implements the interface.
+        
+        // [Public] Used to check if a JavaScript object implements the interface.
         this.implementedBy = function(obj) {
             
-	    // iterate through the required elements.
+            // iterate through the required elements.
             for (var i = 0; i < reqObjects.length; i++) {
 
                 var req = reqObjects[i];
-                				
-		switch (typeof req) {
-                
-		    case "string":
+                                    
+                switch (typeof req) {
+                    
+                    case "string":
                         if (obj[req] === undefined) {
                             return false;
-			}
+                        }
                         break;
-                    
-    		    case "function":
+                        
+                    case "function":
                         var result = req(obj);
                         if (!result) {
                             return false;
-		        }
+                        }
                         break;
-						
-			default:
-			    // unknown type, unable to process.
-			    return false;
+                            
+                    default:
+                        // unknown type, unable to process.
+                        return false;
                 }
             }
 
-	    // check the parent interfaces.
+            // check the parent interfaces.
             for (var i = 0; i < parents.length; i++) {
                 if (!parents[i].implementedBy(obj)) {
-	            return false;
-		}
+                return false;
+                }
             }
 
             // if we made it this far, then the object implements the interface.
